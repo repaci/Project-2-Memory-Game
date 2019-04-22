@@ -23,15 +23,17 @@ import javafx.scene.layout.*;
 import java.util.*; 
 
 public class MemoryGameGUI extends Application {
-
+   
+   //attributes
    GridPane grid = new GridPane();
    Label introlabel;
-   Button [][] buttons = new Button[2][2];
-   //Image[] symbols = new Image[2];
-   int turns=0;
-   ImageView[] animals = new ImageView[4];
-   ImageView[] matches = new ImageView[4];
-
+   int turns = 0;
+   
+   Button clicked;
+   
+   Button [][] buttons = new Button[4][4];
+   ImageView[] all = new ImageView[16];
+   
 
 
 public static void main(String[] args)
@@ -44,8 +46,8 @@ public void start(Stage stage)  {
 
    setAnimalImages();
 
-   for (int h=0; h<2; h++) {
-      for (int v=0; v<2; v++){
+   for (int h=0; h<4; h++) {
+      for (int v=0; v<4; v++){
          buttons[h][v]=  makeButton(new Image("unknown.png"));
             
          }//for
@@ -53,14 +55,14 @@ public void start(Stage stage)  {
       }//for
       
       
-    for (int h=0; h<2; h++) {
-      for (int v=0; v<2; v++){
+    for (int h=0; h<4; h++) {
+      for (int v=0; v<4; v++){
          grid.add(buttons[h][v],h,v);
          buttons[h][v].setOnAction(new MemoryGameButtonHandler());  
             
          }//for
          
-      } //for 
+      }//for 
       
       grid.setAlignment(Pos.CENTER);
    
@@ -81,31 +83,18 @@ public void start(Stage stage)  {
    }//End of Stage
 
 void setAnimalImages(){
-
-   //new ImageView = new ImageView(new Image());
-   for(int i=0;i<2;i++){
-         
-         animals[i] = new ImageView("file:animal"+(i)+".jpg");
    
   
-
-   /*animals[0] = new ImageView(new Image("file:animal0.jpg"));    //bunny image
-   animals[1] = new ImageView(new Image("file:animal1.jpg"));    //chick
-   animals[2] = new ImageView(new Image("file:animal2.jpg"));     //duck
-   animals[3] = new ImageView(new Image("file:animal3.jpg"));  //cats
-   animals[4] = new ImageView(new Image("file:aniaml4.jpg"));    //goat
-   animals[5] = new ImageView(new Image("file:animal5.jpg"));     //pig
-   animals[6] = new ImageView(new Image("file:animal6.jpg"));   //sheep
-   animals[7] = new ImageView(new Image("file:animal7.jpg"));    //pony*/
-                    
-      }       
-     
    
-   for(int x=0;x<2;x++){   
-         matches[x] = new ImageView("file:match"+(x)+".jpg");
-               
-      }       
-     }
+   for(int i=0; i<16; i++){
+      if(i>7){
+         all[i] = new ImageView("file:animal"+(i-8)+".jpg");
+      }
+      else{
+         all[i] = new ImageView("file:animal"+(i)+".jpg");
+      }     
+   }                  
+}//end setAnimalImages
    
    
 Button makeButton(Image img){
@@ -119,43 +108,35 @@ Button makeButton(Image img){
    }
    
 class MemoryGameButtonHandler implements EventHandler<ActionEvent>
-      {
+{
       @Override
       public void handle(ActionEvent event){
       
       turns++;
       int i=0;
       
-      for (int h = 0; h<2; h++) {
-            for (int v = 0; v<2; v++){
+      for (int h = 0; h<4; h++) {
+            for (int v = 0; v<4; v++){
             
                if(event.getSource().equals(buttons[h][v])){
-               
-                  if(v < 1){ 
-                     animals[i].setFitWidth(100);
-                     animals[i].setFitHeight(100);
-                     buttons[h][v].setGraphic(animals[i]);
                      
-                  }   
-                  else{
-                     matches[i].setFitWidth(100);
-                     matches[i].setFitHeight(100);
-                     buttons[h][v].setGraphic(matches[i]);
+                     all[i].setFitWidth(100);
+                     all[i].setFitHeight(100);
+                     buttons[h][v].setGraphic(all[i]);
+                     clicked = buttons[h][v];
                      
-                  }   
-                  i++;
+                     if(all[i] == new ImageView("file:animal"+(0)+".jpg")){
+                        System.out.println("Match");
+                     }
+                     
                }
-                  
-                  
-                
-                 //grid.add(buttons[h][v],h,v); //error on this line
-                 
-              
-                
+               i++;
+            }
+      }
 
-                  }
+      
 
-}}}}
+}}}
 
    
    
