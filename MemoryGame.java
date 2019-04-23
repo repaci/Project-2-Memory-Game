@@ -64,7 +64,19 @@ class MemoryGame implements Game
    
    public void takeTurn(int [] choice)
    {
-   
+   turncnt++
+   if(findMatch() == true){
+      System.out.println("That's a match!");
+      if(gameOverStatus().equals("winner")){
+      isWinner = true;
+         }
+         
+      }
+   else if(findMatch == false){
+     System.out.println("That's not a match");
+      }
+      }
+
    }
    
    public boolean isWinner()
