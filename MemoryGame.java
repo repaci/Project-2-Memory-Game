@@ -53,6 +53,14 @@ class MemoryGame implements Game
       }
    }
    
+   public boolean findMatch(int r1, int c1, int r2, int c2)
+   {
+      if(imageBoard[r1][c1].equals(imageBoard[r2][c2]))
+         return(true);
+      else
+         return(false);
+   }
+   
    
    public void takeTurn(int [] choice)
    {
