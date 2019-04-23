@@ -33,6 +33,7 @@ public class MemoryGameGUI extends Application {
    
    Button [][] buttons = new Button[4][4];
    ImageView[] all = new ImageView[16];
+   Button restartButton = new Button();
    
 
 
@@ -67,12 +68,15 @@ public void start(Stage stage)  {
       grid.setAlignment(Pos.CENTER);
    
       Label introLabel = new Label("Matching Game Label");
-       
+      
+
+      restartButton = makeButton(new Image("Images.png"));
                 
-      VBox vbox = new VBox(introLabel,grid); 
+      VBox vbox = new VBox(introLabel,grid, restartButton); 
+      vbox.setAlignment(Pos.CENTER);
       
          
-      Scene scene = new Scene(vbox,500, 500);    
+      Scene scene = new Scene(vbox,600, 600);    
          
       stage.setScene(scene);  
          
@@ -137,7 +141,5 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>
       
 
 }}}
-
-   
    
 
