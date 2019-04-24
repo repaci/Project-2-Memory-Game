@@ -31,23 +31,31 @@ class MemoryGame implements Game
    public void createImageBoard()
    {
       Random z = new Random();
-      List<Integer> possiblePos = new ArrayList<>();
-      possiblePos.add(0);
-      possiblePos.add(1);
-      possiblePos.add(2);
-      possiblePos.add(3);
+      ArrayList<String> i = new ArrayList<String>();
+      i.add("A");
+      i.add("A");
+      i.add("B");
+      i.add("B");
+      i.add("C");
+      i.add("C");
+      i.add("D");
+      i.add("D");
+      i.add("E");
+      i.add("E");
+      i.add("F");
+      i.add("F");
+      i.add("G");
+      i.add("G");
+      i.add("H");
+      i.add("H");
       
       for(int r=0; r<2; r++)
       {
          for(int c=0; c<2; c++)
          {
-            int position = z.nextInt(possiblePos);
-            possiblePos.remove(new Integer(position));
-            
-            if(position%2 == 0)
-              imageBoard[r][c] = "A";
-            else
-              imageBoard[r][c] = "B"; 
+            String randomImage = i.get(z.nextInt(i.size()));
+            imageBoard[r][c] = randomImage;
+            i.remove(randomImage);
          }
             
       }
@@ -77,6 +85,36 @@ class MemoryGame implements Game
       }
       }
 
+   }
+   
+public int findImagePlacement(String image)
+   {
+      int row1 = -1;
+      int col1 = -1;
+      int row2 = -1;
+      int col2 = -1;
+      
+      for(int r=0; r<2; r++)
+      {
+         for(int c=0; c<2; c++)
+         {
+           if(imageBoard[r][c].equals(image)) 
+           {
+              if(row1 == -1 && col1 == -1)
+              {
+                row1 = r;
+                col1 = c;
+              }
+              else if(row1 != -1 && col1 != -1)
+              {
+                row2 = r;
+                col2 = c;
+              }
+           }
+         }
+      }
+      
+      return(row1, col1, row2, col2);
    }
    
    public boolean isWinner()
