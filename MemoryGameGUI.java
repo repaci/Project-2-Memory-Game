@@ -25,6 +25,7 @@ import java.util.*;
 public class MemoryGameGUI extends Application {
    
    //attributes
+   private MemoryGame game;
    GridPane grid = new GridPane();
    Label introlabel;
    int turns = 0;
@@ -44,26 +45,20 @@ public static void main(String[] args)
    
 @Override
 public void start(Stage stage)  {
+   
+   //create new game
+   game = new MemoryGame();
 
    setAnimalImages();
 
+   ///create grid of buttons
    for (int h=0; h<4; h++) {
       for (int v=0; v<4; v++){
-         buttons[h][v]=  makeButton(new Image("unknown.png"));
-            
-         }//for
-         
-      }//for
-      
-      
-    for (int h=0; h<4; h++) {
-      for (int v=0; v<4; v++){
+         buttons[h][v] = makeButton(new Image("unknown.png"));
          grid.add(buttons[h][v],h,v);
-         buttons[h][v].setOnAction(new MemoryGameButtonHandler());  
-            
-         }//for
-         
-      }//for 
+         buttons[h][v].setOnAction(new MemoryGameButtonHandler()); 
+      }
+   } 
       
       grid.setAlignment(Pos.CENTER);
    
@@ -88,8 +83,6 @@ public void start(Stage stage)  {
 
 void setAnimalImages(){
    
-  
-   
    for(int i=0; i<16; i++){
       if(i>7){
          all[i] = new ImageView("file:animal"+(i-8)+".jpg");
@@ -111,8 +104,7 @@ Button makeButton(Image img){
       
    }
    
-class MemoryGameButtonHandler implements EventHandler<ActionEvent>
-{
+class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       @Override
       public void handle(ActionEvent event){
       
@@ -123,20 +115,18 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>
             for (int v = 0; v<4; v++){
             
                if(event.getSource().equals(buttons[h][v])){
+                  
+                     game.takeTurn();
                      
                      all[i].setFitWidth(100);
                      all[i].setFitHeight(100);
                      buttons[h][v].setGraphic(all[i]);
                      clicked = buttons[h][v];
                      
-                     if(game.isMatch()){
-                        System.out.println("Match");
-                     }
-                  
                      if(game.isWinner()){
                      for(h=0;h<3;h++){ 
                         for(v=0; v<3; v++){
-                           //whatever happens when game is over
+                           //whatever happens when game is over, report winning
                         }
                      }
                   }
