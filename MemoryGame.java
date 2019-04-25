@@ -94,9 +94,11 @@ public int findImagePlacement(String image)
       int row2 = -1;
       int col2 = -1;
       
-      for(int r=0; r<2; r++)
+      int[] retList = new int[4];
+      
+      for(int r=0; r<3; r++)
       {
-         for(int c=0; c<2; c++)
+         for(int c=0; c<3; c++)
          {
            if(imageBoard[r][c].equals(image)) 
            {
@@ -114,7 +116,12 @@ public int findImagePlacement(String image)
          }
       }
       
-      return(row1, col1, row2, col2);
+      retList[0] = row1;
+      retList[1] = col1;
+      retList[2] = row2;
+      retList[3] = col2;
+      
+      return(retList);
    }
    
    public boolean isWinner()
