@@ -110,34 +110,43 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       
       turns++;
       int i=0;
+      int r2=0;
+      int c2=0;
       
-      for (int h = 0; h<4; h++) {
-            for (int v = 0; v<4; v++){
-            
-               if(event.getSource().equals(buttons[h][v])){
-                  
-                     game.takeTurn();
+      for (int r = 0; r<4; r++) {
+            for (int c = 0; c<4; c++){
+               
+               if(event.getSource().equals(buttons[r][c])){
                      
+                     //test if first card or second card
+                     if(turns%2!=0){
+                        game.takeTurn(r,c,r2,c2);
+                     }
+                     else{
+                        r2 = r;
+                        c2 = c;
+                     }
+                     
+                     //update gui board with image
                      all[i].setFitWidth(100);
                      all[i].setFitHeight(100);
-                     buttons[h][v].setGraphic(all[i]);
-                     clicked = buttons[h][v];
+                     buttons[r][c].setGraphic(all[i]);
+                     clicked = buttons[r][c];
                      
+                     //test if game is won
                      if(game.isWinner()){
-                     for(h=0;h<3;h++){ 
-                        for(v=0; v<3; v++){
-                           //whatever happens when game is over, report winning
+                        for(r=0;r<3;r++){ 
+                           for(c=0; c<3; c++){
+                              //whatever happens when game is over, report winning
+                           }
                         }
-                     }
-                  }
+                     }//end test if game is won
                      
                }
                i++;
             }
+         }
       }
-
-      
-
-}}}
-   
+   }
+}
 
