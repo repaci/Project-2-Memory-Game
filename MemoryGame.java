@@ -16,7 +16,7 @@ class MemoryGame implements Game
 
    public void setUp()
    {
-   
+   isWinner = False;
    } 
    
    public void createBackBoard()
@@ -119,7 +119,7 @@ public int findImagePlacement(String image)
    
    public boolean isWinner()
    {
-      return (false);
+      return (isWinner);
    }
     
    public int getTurnCnt()
