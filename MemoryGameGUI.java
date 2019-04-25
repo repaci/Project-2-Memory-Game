@@ -129,9 +129,17 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>
                      buttons[h][v].setGraphic(all[i]);
                      clicked = buttons[h][v];
                      
-                     if(all[i] == new ImageView("file:animal"+(0)+".jpg")){
+                     if(game.isMatch()){
                         System.out.println("Match");
                      }
+                  
+                     if(game.isWinner()){
+                     for(h=0;h<3;h++){ 
+                        for(v=0; v<3; v++){
+                           //whatever happens when game is over
+                        }
+                     }
+                  }
                      
                }
                i++;
