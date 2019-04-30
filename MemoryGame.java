@@ -1,4 +1,5 @@
 
+
 // Code created by Charlie Repaci. Last updated April 30, 2019. 
 // Code is a part of a larger MemoryGame program
 // Coordinated with Ismah Ahmed, Natalie Starczewski, Lauren Del Vacchio, and Michele MacKinnon
@@ -76,6 +77,11 @@ class MemoryGame implements Game
    public String[][] getImageBoard()
    {
       return(imageBoard);
+   }
+   
+   public int getMatchesMade()
+   {
+      matchesMade = 0;
    }
    
    public int[] findImagePlacement(String image)
@@ -162,10 +168,10 @@ class MemoryGame implements Game
    
    public boolean isWinner()
    {
-     if(matchesMade == 8)
-        isWinner = true;
-     else
-        isWinner = false;
+      if(matchesMade == 8)
+         isWinner = true;
+      else
+         isWinner = false;
       
       return(isWinner);
    }
@@ -198,7 +204,7 @@ class MemoryGame implements Game
    
    public String toString()
    {
-      String s = "";
+      String s = " ";
       
       for(int r=0; r<4; r++)
       {
@@ -215,4 +221,5 @@ class MemoryGame implements Game
    
    }
 
+}// MemoryGame class
 }// MemoryGame class
