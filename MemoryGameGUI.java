@@ -25,6 +25,8 @@ import javafx.geometry.Insets;
 public class MemoryGameGUI extends Application {
    
    //attributes
+   private MemoryGame game;
+   
    Font font = new Font("Helvetica", 50);
    GridPane grid = new GridPane();
    Label introlabel;
@@ -45,24 +47,17 @@ public static void main(String[] args)
 @Override
 public void start(Stage stage)  {
 
+   //create new game
+   game = new MemoryGame();
+   
    setAnimalImages();
 
    for (int h=0; h<4; h++) {
       for (int v=0; v<4; v++){
          buttons[h][v]=  makeButton(new Image("question.jpg"));
-            
-         }//for
-         
-      }//for
-      
-      
-    for (int h=0; h<4; h++) {
-      for (int v=0; v<4; v++){
          grid.add(buttons[h][v],h,v);
-         buttons[h][v].setOnAction(new MemoryGameButtonHandler());  
-            
+         buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
          }//for
-         
       }//for 
       
       grid.setAlignment(Pos.CENTER);
@@ -82,11 +77,6 @@ public void start(Stage stage)  {
       
       HBox hbox= new HBox ( restartButton, space, reportLabel);
       hbox.setAlignment(Pos.CENTER);
-      
-      
-      
-      
-
                 
       VBox vbox = new VBox(introLabel,vbox2, grid, vbox3, hbox); 
       vbox.setAlignment(Pos.CENTER);
@@ -96,7 +86,6 @@ public void start(Stage stage)  {
       Scene scene = new Scene(vbox, 600, 600);
       
       //scene.getStylesheets().add("matchingGame.CSS");
-    
          
       stage.setScene(scene);  
          
@@ -107,8 +96,6 @@ public void start(Stage stage)  {
    }//End of Stage
 
 void setAnimalImages(){
-   
-  
    
    for(int i=0; i<16; i++){
       if(i>7){
@@ -139,6 +126,7 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       int i=0;
       int r2=0;
       int c2=0;
+      int [] choices = new int[4];
       
       for (int r = 0; r<4; r++) {
             for (int c = 0; c<4; c++){
@@ -147,7 +135,20 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                      
                      //test if first card or second card
                      if(turns%2!=0){
-                        game.takeTurn(r,c,r2,c2);
+                        
+                        //add choices to array
+                        choices[0] = r;
+                        choices[1] = c;
+                        choices[2] = r2;
+                        choices[3] = c2;
+                        
+                        //take turn using choices array
+                        game.takeTurn(choices);
+                        
+                        //test if these two are a match
+                        if(game.match()){
+                           
+                        }
                      }
                      else{
                         r2 = r;
