@@ -132,6 +132,12 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
             for (int c = 0; c<4; c++){
                
                if(event.getSource().equals(buttons[r][c])){
+                  
+                     //update gui board with image
+                     all[i].setFitWidth(100);
+                     all[i].setFitHeight(100);
+                     buttons[r][c].setGraphic(all[i]);
+                     clicked = buttons[r][c];
                      
                      //test if first card or second card
                      if(turns%2!=0){
@@ -154,12 +160,6 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                         r2 = r;
                         c2 = c;
                      }
-                     
-                     //update gui board with image
-                     all[i].setFitWidth(100);
-                     all[i].setFitHeight(100);
-                     buttons[r][c].setGraphic(all[i]);
-                     clicked = buttons[r][c];
                      
                      //test if game is won
                      if(game.isWinner()){
