@@ -181,18 +181,21 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                        
                }
                
-               //if restart button clicked
-               else if(event.getSource().equals(restartButton)){
-                  for (int h=0; h<4; h++) {
-                     for (int v=0; v<4; v++){
-                        buttons[h][v]=  makeButton(new Image("question.jpg"));
-                        grid.add(buttons[h][v],h,v);
-                        buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
-                     }//for
-                  }//for
-               }
+               
              i++;   
             }
+         }
+         
+         
+         //if restart button clicked
+         if(event.getSource().equals(restartButton)){
+            for (int h=0; h<4; h++) {
+               for (int v=0; v<4; v++){
+                  buttons[h][v]=  makeButton(new Image("question.jpg"));
+                  grid.add(buttons[h][v],h,v);
+                  buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
+               }//for
+            }//for
          }
       }
    }
