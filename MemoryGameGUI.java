@@ -21,20 +21,19 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.*;
 import java.util.*; 
-
+import javafx.geometry.Insets;
 public class MemoryGameGUI extends Application {
    
    //attributes
-   private MemoryGame game;
+   Font font = new Font("Helvetica", 50);
    GridPane grid = new GridPane();
    Label introlabel;
    int turns = 0;
-   
    Button clicked;
-   
    Button [][] buttons = new Button[4][4];
    ImageView[] all = new ImageView[16];
-   Button restartButton = new Button();
+   Button restartButton = new Button("Restart");
+   Label reportLabel;
    
 
 
@@ -45,33 +44,59 @@ public static void main(String[] args)
    
 @Override
 public void start(Stage stage)  {
-   
-   //create new game
-   game = new MemoryGame();
 
    setAnimalImages();
 
-   ///create grid of buttons
    for (int h=0; h<4; h++) {
       for (int v=0; v<4; v++){
-         buttons[h][v] = makeButton(new Image("unknown.png"));
+         buttons[h][v]=  makeButton(new Image("question.jpg"));
+            
+         }//for
+         
+      }//for
+      
+      
+    for (int h=0; h<4; h++) {
+      for (int v=0; v<4; v++){
          grid.add(buttons[h][v],h,v);
-         buttons[h][v].setOnAction(new MemoryGameButtonHandler()); 
-      }
-   } 
+         buttons[h][v].setOnAction(new MemoryGameButtonHandler());  
+            
+         }//for
+         
+      }//for 
       
       grid.setAlignment(Pos.CENTER);
    
-      Label introLabel = new Label("Matching Game Label");
+      Label introLabel = new Label(" Matching Game ");
+      introLabel.setFont(font);
+      
+      Label blank = new Label("     ");
+      VBox vbox2 = new VBox(blank);
+      
+      Label blank2 = new Label("     ");
+      VBox vbox3 = new VBox(blank2);
+      
+      reportLabel = new Label ("Report Label");
+      
+      Label space = new Label ("    ");
+      
+      HBox hbox= new HBox ( restartButton, space, reportLabel);
+      hbox.setAlignment(Pos.CENTER);
+      
+      
+      
       
 
-      restartButton = makeButton(new Image("Images.png"));
                 
-      VBox vbox = new VBox(introLabel,grid, restartButton); 
+      VBox vbox = new VBox(introLabel,vbox2, grid, vbox3, hbox); 
       vbox.setAlignment(Pos.CENTER);
       
+      vbox.setPadding(new Insets(20));
          
-      Scene scene = new Scene(vbox,600, 600);    
+      Scene scene = new Scene(vbox, 600, 600);
+      
+      //scene.getStylesheets().add("matchingGame.CSS");
+    
          
       stage.setScene(scene);  
          
@@ -82,6 +107,8 @@ public void start(Stage stage)  {
    }//End of Stage
 
 void setAnimalImages(){
+   
+  
    
    for(int i=0; i<16; i++){
       if(i>7){
