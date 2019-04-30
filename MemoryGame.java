@@ -1,4 +1,5 @@
-// Code created by Charlie Repaci. Last updated April 16, 2019. 
+
+// Code created by Charlie Repaci. Last updated April 30, 2019. 
 // Code is a part of a larger MemoryGame program
 // Coordinated with Ismah Ahmed, Natalie Starczewski, Lauren Del Vacchio, and Michele MacKinnon
 
@@ -10,8 +11,8 @@ import java.util.Random;
 class MemoryGame implements Game
 {
 
-   String[][] backBoard = new String[3][3];
-   String[][] imageBoard = new String[3][3];
+   String[][] backBoard = new String[4][4];
+   String[][] imageBoard = new String[4][4];
    int turnCount = 0;
    boolean isWinner = false;
    int matchesMade = 0;
@@ -20,16 +21,16 @@ class MemoryGame implements Game
    {
       createBackBoard();
       createImageBoard();
-      turncount = 0;
+      turnCount = 0;
       isWinner = false;
       matchesMade = 0;
    } 
    
    public void createBackBoard()
    {
-      for(int r=0; r<3; r++)
+      for(int r=0; r<4; r++)
       {
-         for(int c=0; c<3; c++)
+         for(int c=0; c<4; c++)
             backBoard[r][c] = "#";
       }
    }
@@ -55,9 +56,9 @@ class MemoryGame implements Game
       i.add("H");
       i.add("H");
       
-      for(int r=0; r<3; r++)
+      for(int r=0; r<4; r++)
       {
-         for(int c=0; c<3; c++)
+         for(int c=0; c<4; c++)
          {
             String randomImage = i.get(z.nextInt(i.size()));
             imageBoard[r][c] = randomImage;
@@ -86,9 +87,9 @@ class MemoryGame implements Game
       
       int[] retList = new int[4];
       
-      for(int r=0; r<3; r++)
+      for(int r=0; r<4; r++)
       {
-         for(int c=0; c<3; c++)
+         for(int c=0; c<4; c++)
          {
             if(imageBoard[r][c].equals(image)) 
             {
@@ -114,7 +115,7 @@ class MemoryGame implements Game
       return(retList);
    }
    
-   public boolean takeTurn(int[] choice)
+   public void takeTurn(int[] choice)
    {
       int r1 = choice[0];
       int c1 = choice[1];
@@ -124,15 +125,25 @@ class MemoryGame implements Game
       backBoard[r1][c1] = imageBoard[r1][c1];
       backBoard[r2][c2] = imageBoard[r2][c2];
       
+      turnCount++;
+   }
+   
+   public boolean match(int[] choice)
+   {
+      int r1 = choice[0];
+      int c1 = choice[1];
+      int r2 = choice[2];
+      int c2 = choice[3];
+      
+      boolean m = false;
+      
       if(imageBoard[r1][c1].equals(imageBoard[r2][c2]))
       {
-         return(true);
+         m = true;
          matchesMade++;
       }
-      else
-         return(false);
-         
-      turnCount++;
+      
+      return(m);
    }
    
    public void flipNoMatch(int[] choice)
@@ -142,7 +153,7 @@ class MemoryGame implements Game
       int r2 = choice[2];
       int c2 = choice[3];
       
-      if(takeTurn(choice) == false)
+      if(match(choice) == false)
       {
          backBoard[r1][c1] = "#";
          backBoard[r2][c2] = "#";
@@ -168,7 +179,7 @@ class MemoryGame implements Game
    {
       if(isWinner())
          return("winner");
-      else if (turnCnt == 12)
+      else if (turnCount == 12)
          return("loser");
       else
          return("inProgress");
@@ -189,9 +200,9 @@ class MemoryGame implements Game
    {
       String s = "";
       
-      for(int r=0; r<3; r++)
+      for(int r=0; r<4; r++)
       {
-         for(int c=0; c<3; c++)
+         for(int c=0; c<4; c++)
          {
             if(c == 3)
                s = s + backBoard[r][c] + " \n ";
