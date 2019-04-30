@@ -132,7 +132,7 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
             for (int c = 0; c<4; c++){
                
                if(event.getSource().equals(buttons[r][c])){
-                  
+               
                      //update gui board with image
                      all[i].setFitWidth(100);
                      all[i].setFitHeight(100);
@@ -140,8 +140,11 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                      clicked = buttons[r][c];
                      
                      //test if first card or second card
-                     if(turns%2!=0){
-                        
+                     if(turns % 2!=0){
+                        r2 = r;
+                        c2 = c;
+                     }
+                     else{
                         //add choices to array
                         choices[0] = r;
                         choices[1] = c;
@@ -152,29 +155,42 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                         game.takeTurn(choices);
                         
                         //test if these two are a match
-                        if(game.match(choices)){
+                        if(game.match(choices)==true){
                            reportLabel.setText(String.format("Match!"));
                         }
+                        else{
+                           reportLabel.setText(String.format("not a match!"));
+                           
+                           
+                           
+                        }
                      }
-                     else{
-                        r2 = r;
-                        c2 = c;
-                     }
+                     
                      
                      //test if game is won
                      if(game.isWinner()){
                         for(r=0;r<3;r++){ 
                            for(c=0; c<3; c++){
-                              //whatever happens when game is over, report winning
+                              reportLabel.setText(String.format("Game won!"));
                            }
                         }
                      }//end test if game is won
-                     
+                       
                }
-               i++;
+               
+               //if restart button clicked
+               else if(event.getSource().equals(restartButton)){
+                  for (int h=0; h<4; h++) {
+                     for (int v=0; v<4; v++){
+                        buttons[h][v]=  makeButton(new Image("question.jpg"));
+                        grid.add(buttons[h][v],h,v);
+                        buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
+                     }//for
+                  }//for
+               }
+             i++;   
             }
          }
       }
    }
 }
-
