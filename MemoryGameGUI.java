@@ -26,8 +26,6 @@ public class MemoryGameGUI extends Application {
    
    //attributes
    private MemoryGame game;
-   game.createBackBoard();
-   game.createImageBoard();
 
    
    Font font = new Font("Helvetica", 50);
@@ -52,6 +50,8 @@ public void start(Stage stage)  {
 
    //create new game
    game = new MemoryGame();
+   game.createBackBoard();
+   game.createImageBoard();
    
    setAnimalImages();
 
