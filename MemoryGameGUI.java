@@ -146,8 +146,8 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                         game.takeTurn(choices);
                         
                         //test if these two are a match
-                        if(game.match()){
-                           
+                        if(game.match(choices)){
+                           reportLabel.setText(String.format("Match!"));
                         }
                      }
                      else{
