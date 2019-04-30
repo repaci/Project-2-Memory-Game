@@ -78,6 +78,8 @@ public void start(Stage stage)  {
       
       Label space = new Label ("    ");
       
+      restartButton.setOnAction(new MemoryGameButtonHandler()); 
+      
       HBox hbox= new HBox ( restartButton, space, reportLabel);
       hbox.setAlignment(Pos.CENTER);
                 
@@ -136,67 +138,62 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                
                if(event.getSource().equals(buttons[r][c])){
                
-                     //update gui board with image
-                     all[i].setFitWidth(100);
-                     all[i].setFitHeight(100);
-                     buttons[r][c].setGraphic(all[i]);
-                     clicked = buttons[r][c];
+                  //update gui board with image
+                  all[i].setFitWidth(100);
+                  all[i].setFitHeight(100);
+                  buttons[r][c].setGraphic(all[i]);
+                  clicked = buttons[r][c];
+                  
+                  //test if first card or second card
+                  if(turns % 2!=0){
+                     r2 = r;
+                     c2 = c;
+                  }
+                  else{
+                     //add choices to array
+                     choices[0] = r;
+                     choices[1] = c;
+                     choices[2] = r2;
+                     choices[3] = c2;
                      
-                     //test if first card or second card
-                     if(turns % 2!=0){
-                        r2 = r;
-                        c2 = c;
+                     //take turn using choices array
+                     game.takeTurn(choices);
+                     
+                     //test if these two are a match
+                     if(game.match(choices)==true){
+                        reportLabel.setText(String.format("Match!"));
                      }
                      else{
-                        //add choices to array
-                        choices[0] = r;
-                        choices[1] = c;
-                        choices[2] = r2;
-                        choices[3] = c2;
-                        
-                        //take turn using choices array
-                        game.takeTurn(choices);
-                        
-                        //test if these two are a match
-                        if(game.match(choices)==true){
-                           reportLabel.setText(String.format("Match!"));
-                        }
-                        else{
-                           reportLabel.setText(String.format("not a match!"));
-                           
-                           
-                           
+                        reportLabel.setText(String.format("not a match!"));  
+                     }
+                  }
+                  
+                  //test if game is won
+                  if(game.isWinner()){
+                     for(r=0;r<3;r++){ 
+                        for(c=0; c<3; c++){
+                           reportLabel.setText(String.format("Game won!"));
                         }
                      }
-                     
-                     
-                     //test if game is won
-                     if(game.isWinner()){
-                        for(r=0;r<3;r++){ 
-                           for(c=0; c<3; c++){
-                              reportLabel.setText(String.format("Game won!"));
-                           }
-                        }
-                     }//end test if game is won
+                  }//end test if game is won
                        
                }
                
+             i++; 
                
-             i++;   
             }
          }
-         
          
          //if restart button clicked
          if(event.getSource().equals(restartButton)){
             for (int h=0; h<4; h++) {
                for (int v=0; v<4; v++){
-                  buttons[h][v]=  makeButton(new Image("question.jpg"));
+                  buttons[h][v] =  makeButton(new Image("question.jpg"));
                   grid.add(buttons[h][v],h,v);
                   buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
-               }//for
-            }//for
-         }
+               }
+            }
+         }//end if restart button clicked
       }
-   }
-}
+   }//end MemoryGameButtonHandler
+}//end public class MemoryGameGUI
