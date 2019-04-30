@@ -26,6 +26,9 @@ public class MemoryGameGUI extends Application {
    
    //attributes
    private MemoryGame game;
+   game.createBackBoard();
+   game.createImageBoard();
+
    
    Font font = new Font("Helvetica", 50);
    GridPane grid = new GridPane();
