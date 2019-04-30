@@ -1,4 +1,3 @@
-
 // Code created by Charlie Repaci. Last updated April 16, 2019. 
 // Code is a part of a larger MemoryGame program
 // Coordinated with Ismah Ahmed, Natalie Starczewski, Lauren Del Vacchio, and Michele MacKinnon
@@ -11,19 +10,26 @@ import java.util.Random;
 class MemoryGame implements Game
 {
 
-   String[][] backBoard = new String[2][2];
-   String[][] imageBoard = new String[2][2];
+   String[][] backBoard = new String[3][3];
+   String[][] imageBoard = new String[3][3];
+   int turnCount = 0;
+   boolean isWinner = false;
+   int matchesMade = 0;
 
    public void setUp()
    {
-   isWinner = False;
+      createBackBoard();
+      createImageBoard();
+      turncount = 0;
+      isWinner = false;
+      matchesMade = 0;
    } 
    
    public void createBackBoard()
    {
-      for(int r=0; r<2; r++)
+      for(int r=0; r<3; r++)
       {
-         for(int c=0; c<2; c++)
+         for(int c=0; c<3; c++)
             backBoard[r][c] = "#";
       }
    }
@@ -49,9 +55,9 @@ class MemoryGame implements Game
       i.add("H");
       i.add("H");
       
-      for(int r=0; r<2; r++)
+      for(int r=0; r<3; r++)
       {
-         for(int c=0; c<2; c++)
+         for(int c=0; c<3; c++)
          {
             String randomImage = i.get(z.nextInt(i.size()));
             imageBoard[r][c] = randomImage;
@@ -61,33 +67,17 @@ class MemoryGame implements Game
       }
    }
    
-   public boolean findMatch(int r1, int c1, int r2, int c2)
+   public String[][] getBackBoard()
    {
-      if(imageBoard[r1][c1].equals(imageBoard[r2][c2]))
-         return(true);
-      else
-         return(false);
+      return(backBoard);
    }
    
-   
-   public void takeTurn(int [] choice)
+   public String[][] getImageBoard()
    {
-   turncnt++
-   if(findMatch() == true){
-      System.out.println("That's a match!");
-      if(gameOverStatus().equals("winner")){
-      isWinner = true;
-         }
-         
-      }
-   else if(findMatch == false){
-     System.out.println("That's not a match");
-      }
-      }
-
+      return(imageBoard);
    }
    
-public int findImagePlacement(String image)
+   public int[] findImagePlacement(String image)
    {
       int row1 = -1;
       int col1 = -1;
@@ -100,19 +90,19 @@ public int findImagePlacement(String image)
       {
          for(int c=0; c<3; c++)
          {
-           if(imageBoard[r][c].equals(image)) 
-           {
-              if(row1 == -1 && col1 == -1)
-              {
-                row1 = r;
-                col1 = c;
-              }
-              else if(row1 != -1 && col1 != -1)
-              {
-                row2 = r;
-                col2 = c;
-              }
-           }
+            if(imageBoard[r][c].equals(image)) 
+            {
+               if(row1 == -1 && col1 == -1)
+               {
+                  row1 = r;
+                  col1 = c;
+               }
+               else if(row1 != -1 && col1 != -1)
+               {
+                  row2 = r;
+                  col2 = c;
+               }
+            }
          }
       }
       
@@ -124,24 +114,94 @@ public int findImagePlacement(String image)
       return(retList);
    }
    
+   public boolean takeTurn(int[] choice)
+   {
+      int r1 = choice[0];
+      int c1 = choice[1];
+      int r2 = choice[2];
+      int c2 = choice[3];
+      
+      backBoard[r1][c1] = imageBoard[r1][c1];
+      backBoard[r2][c2] = imageBoard[r2][c2];
+      
+      if(imageBoard[r1][c1].equals(imageBoard[r2][c2]))
+      {
+         return(true);
+         matchesMade++;
+      }
+      else
+         return(false);
+         
+      turnCount++;
+   }
+   
+   public void flipNoMatch(int[] choice)
+   {
+      int r1 = choice[0];
+      int c1 = choice[1];
+      int r2 = choice[2];
+      int c2 = choice[3];
+      
+      if(takeTurn(choice) == false)
+      {
+         backBoard[r1][c1] = "#";
+         backBoard[r2][c2] = "#";
+      }
+   }
+   
    public boolean isWinner()
    {
-      return (isWinner);
+     if(matchesMade == 8)
+        isWinner = true;
+     else
+        isWinner = false;
+      
+      return(isWinner);
    }
     
    public int getTurnCnt()
    {
-      return(1);
+      return(turnCount);
    }
    
    public String gameOverStatus()
    {
-      return("inProgress");
+      if(isWinner())
+         return("winner");
+      else if (turnCnt == 12)
+         return("loser");
+      else
+         return("inProgress");
    }
    
    public boolean isValidInput(int [] x)
    {
-      return(true);
+      int r = x[0];
+      int c = x[1];
+      
+      if(r >= 0 && r <= 3 && c >= 0 && c <= 3)
+         return(true);
+      else
+         return(false);
+   }
+   
+   public String toString()
+   {
+      String s = "";
+      
+      for(int r=0; r<3; r++)
+      {
+         for(int c=0; c<3; c++)
+         {
+            if(c == 3)
+               s = s + backBoard[r][c] + " \n ";
+            else
+               s = s + backBoard[r][c];
+         }
+      }
+      
+      return(s);
+   
    }
 
 }// MemoryGame class
