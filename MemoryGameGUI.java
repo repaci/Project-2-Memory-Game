@@ -28,7 +28,7 @@ public class MemoryGameGUI extends Application {
    private MemoryGame game;
 
    
-   Font font = new Font("Helvetica", 50);
+   Font font = new Font("American Typewriter", 50);
    GridPane grid = new GridPane();
    Label introlabel;
    int turns = 0;
@@ -59,6 +59,7 @@ public void start(Stage stage)  {
       for (int v=0; v<4; v++){
          buttons[h][v]=  makeButton(new Image("question.jpg"));
          grid.add(buttons[h][v],h,v);
+         buttons[h][v].setStyle("-fx-background-color: #c7f9cd");
          buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
          }//for
       }//for 
@@ -66,6 +67,7 @@ public void start(Stage stage)  {
       grid.setAlignment(Pos.CENTER);
    
       Label introLabel = new Label(" Matching Game ");
+      introLabel.setStyle("-fx-text-fill: BLACK");
       introLabel.setFont(font);
       
       Label blank = new Label("     ");
@@ -75,9 +77,14 @@ public void start(Stage stage)  {
       VBox vbox3 = new VBox(blank2);
       
       reportLabel = new Label ("Report Label");
+      reportLabel.setFont(new Font("American Typewriter",25));
+      reportLabel.setStyle("-fx-text-fill: BLACK ");
       
       Label space = new Label ("    ");
-      
+   
+      restartButton.setFont(new Font("American Typewriter",25));
+      restartButton.setStyle("-fx-border-color: #c7f9cd; -fx-border-width: 5px;");
+
       restartButton.setOnAction(new MemoryGameButtonHandler()); 
       
       HBox hbox= new HBox ( restartButton, space, reportLabel);
@@ -88,7 +95,7 @@ public void start(Stage stage)  {
       
       vbox.setPadding(new Insets(20));
          
-      Scene scene = new Scene(vbox, 600, 600);
+      Scene scene = new Scene(vbox, 1000, 800, Color. LIGHTBLUE);
       
       //scene.getStylesheets().add("matchingGame.CSS");
          
@@ -162,9 +169,11 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                      //test if these two are a match
                      if(game.match(choices)==true){
                         reportLabel.setText(String.format("Match!"));
+                        reportLabel.setFont(new Font("American Typewriter",25));
                      }
                      else{
-                        reportLabel.setText(String.format("not a match!"));  
+                        reportLabel.setText(String.format("not a match!")); 
+                        reportLabel.setFont(new Font("American Typewriter",25));
                      }
                   }
                   
