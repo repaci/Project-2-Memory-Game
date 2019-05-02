@@ -22,13 +22,15 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.*;
 import java.util.*; 
 import javafx.geometry.Insets;
+
 public class MemoryGameGUI extends Application {
    
    //attributes
    private MemoryGame game;
+   
 
    
-   Font font = new Font("American Typewriter", 50);
+   Font font = new Font("Helvetica", 50);
    GridPane grid = new GridPane();
    Label introlabel;
    int turns = 0;
@@ -50,24 +52,48 @@ public void start(Stage stage)  {
 
    //create new game
    game = new MemoryGame();
+   
    game.createBackBoard();
    game.createImageBoard();
    
    setAnimalImages();
+   
+
+   for (int h=0; h<4; h++) {
+      for (int v=0; v<4; v++){
+      if(h>7){
+         all[h] = new ImageView("file:animal"+(h-8)+".jpg");
+         all[h].setFitWidth(100);
+         all[h].setFitHeight(100);
+         grid.add(all[h], h, v);
+      }
+      else{
+         all[h] = new ImageView("file:animal"+(h)+".jpg");
+         all[h].setFitWidth(100);
+         all[h].setFitHeight(100);
+         grid.add(all[h],h, v);
+      }   
+
+          
+         }//for
+      }//for 
+      
+
+
 
    for (int h=0; h<4; h++) {
       for (int v=0; v<4; v++){
          buttons[h][v]=  makeButton(new Image("question.jpg"));
          grid.add(buttons[h][v],h,v);
-         buttons[h][v].setStyle("-fx-background-color: #c7f9cd");
          buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
          }//for
       }//for 
       
+                            
+      
       grid.setAlignment(Pos.CENTER);
    
       Label introLabel = new Label(" Matching Game ");
-      introLabel.setStyle("-fx-text-fill: BLACK");
       introLabel.setFont(font);
       
       Label blank = new Label("     ");
@@ -77,15 +103,10 @@ public void start(Stage stage)  {
       VBox vbox3 = new VBox(blank2);
       
       reportLabel = new Label ("Report Label");
-      reportLabel.setFont(new Font("American Typewriter",25));
-      reportLabel.setStyle("-fx-text-fill: BLACK ");
       
       Label space = new Label ("    ");
-   
-      restartButton.setFont(new Font("American Typewriter",25));
-      restartButton.setStyle("-fx-border-color: #c7f9cd; -fx-border-width: 5px;");
-
-      restartButton.setOnAction(new MemoryGameButtonHandler()); 
+      
+      
       
       HBox hbox= new HBox ( restartButton, space, reportLabel);
       hbox.setAlignment(Pos.CENTER);
@@ -95,7 +116,7 @@ public void start(Stage stage)  {
       
       vbox.setPadding(new Insets(20));
          
-      Scene scene = new Scene(vbox, 1000, 800, Color. LIGHTBLUE);
+      Scene scene = new Scene(vbox, 600, 600);
       
       //scene.getStylesheets().add("matchingGame.CSS");
          
@@ -112,10 +133,19 @@ void setAnimalImages(){
    for(int i=0; i<16; i++){
       if(i>7){
          all[i] = new ImageView("file:animal"+(i-8)+".jpg");
+         all[i].setFitWidth(100);
+         all[i].setFitHeight(100);
+         
       }
       else{
          all[i] = new ImageView("file:animal"+(i)+".jpg");
-      }     
+         all[i].setFitWidth(100);
+         all[i].setFitHeight(100);
+      }   
+      
+            
+      
+   
    }                  
 }//end setAnimalImages
    
@@ -145,64 +175,98 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                
                if(event.getSource().equals(buttons[r][c])){
                
-                  //update gui board with image
-                  all[i].setFitWidth(100);
-                  all[i].setFitHeight(100);
-                  buttons[r][c].setGraphic(all[i]);
-                  clicked = buttons[r][c];
+                  String[][] imageBoard=game.getImageBoard();
+   
+        /*for (int x = 0; x<4; x++) {
+                  for (int y = 0; y<4; y++){
                   
-                  //test if first card or second card
-                  if(turns % 2!=0){
-                     r2 = r;
-                     c2 = c;
-                  }
-                  else{
-                     //add choices to array
-                     choices[0] = r;
-                     choices[1] = c;
-                     choices[2] = r2;
-                     choices[3] = c2;
+                  if (imageBoard[x][y].equals("A")){
+                     buttons[x][y].setGraphic(all[1]); 
                      
-                     //take turn using choices array
-                     game.takeTurn(choices);
+                  } else if (imageBoard[x][y].equals("B")){
+                     buttons[x][y].setGraphic(all[2]); 
+                    
+                  } else if (imageBoard[x][y].equals("C")){
+                     buttons[x][y].setGraphic(all[3]);; 
                      
-                     //test if these two are a match
-                     if(game.match(choices)==true){
-                        reportLabel.setText(String.format("Match!"));
-                        reportLabel.setFont(new Font("American Typewriter",25));
+                  } else if (imageBoard[x][y].equals("D")){
+                     buttons[x][y].setGraphic(all[4]);; 
+                  
+                  } else if (imageBoard[x][y].equals("E")){
+                     buttons[x][y].setGraphic(all[5]);; 
+                     
+                  } else if (imageBoard[x][y].equals("F")){
+                     buttons[x][y].setGraphic(all[6]);; 
+                     
+                  } else if (imageBoard[x][y].equals("G")){
+                     buttons[x][y].setGraphic(all[7]);; 
+                     
+                  } else if (imageBoard[x][y].equals("H")){
+                     buttons[x][y].setGraphic(all[8]); }
+               }} */
+
+               
+               
+
+             
+                  //update gui board with image
+                     all[i].setFitWidth(100);
+                     all[i].setFitHeight(100);
+                     buttons[r][c].setGraphic(all[i]);
+                     clicked = buttons[r][c]; }
+                     
+                     //test if first card or second card
+                     if(turns % 2!=0){
+                        r2 = r;
+                        c2 = c;
                      }
                      else{
-                        reportLabel.setText(String.format("not a match!")); 
-                        reportLabel.setFont(new Font("American Typewriter",25));
-                     }
-                  }
-                  
-                  //test if game is won
-                  if(game.isWinner()){
-                     for(r=0;r<3;r++){ 
-                        for(c=0; c<3; c++){
-                           reportLabel.setText(String.format("Game won!"));
+                        //add choices to array
+                        choices[0] = r;
+                        choices[1] = c;
+                        choices[2] = r2;
+                        choices[3] = c2;
+                        
+                        //take turn using choices array
+                        game.takeTurn(choices);
+                        
+                        //test if these two are a match
+                        if(game.match(choices)==true){
+                           reportLabel.setText(String.format("Match!"));
+                        }
+                        else{
+                           reportLabel.setText(String.format("not a match!"));
+                           
+                           
+                           
                         }
                      }
-                  }//end test if game is won
+                     
+                     
+                     //test if game is won
+                     if(game.isWinner()){
+                        for(r=0;r<3;r++){ 
+                           for(c=0; c<3; c++){
+                              reportLabel.setText(String.format("Game won!"));
+                           }
+                        }
+                     }//end test if game is won
                        
+               
+               
+               //if restart button clicked
+               else if(event.getSource().equals(restartButton)){
+                  for (int h=0; h<4; h++) {
+                     for (int v=0; v<4; v++){
+                        buttons[h][v]=  makeButton(new Image("question.jpg"));
+                        grid.add(buttons[h][v],h,v);
+                        buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
+                     }//for
+                  }//for
                }
-               
-             i++; 
-               
+             i++;   
             }
          }
-         
-         //if restart button clicked
-         if(event.getSource().equals(restartButton)){
-            for (int h=0; h<4; h++) {
-               for (int v=0; v<4; v++){
-                  buttons[h][v] =  makeButton(new Image("question.jpg"));
-                  grid.add(buttons[h][v],h,v);
-                  buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
-               }
-            }
-         }//end if restart button clicked
       }
-   }//end MemoryGameButtonHandler
-}//end public class MemoryGameGUI
+   }
+}
