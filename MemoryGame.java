@@ -69,6 +69,10 @@ class MemoryGame implements Game
       }
    }
    
+   public char get(int r, int c){
+      return(imageBoard[r][c].charAt(0));
+   }
+   
    public String[][] getBackBoard()
    {
       return(backBoard);
