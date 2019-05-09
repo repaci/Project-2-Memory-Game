@@ -85,7 +85,7 @@ class MemoryGame implements Game
    
    public int getMatchesMade()
    {
-      matchesMade = 0;
+      return(matchesMade);
    }
    
    public int[] findImagePlacement(String image)
@@ -230,5 +230,4 @@ class MemoryGame implements Game
    
    }
 
-}// MemoryGame class
 }// MemoryGame class
