@@ -62,34 +62,13 @@ public void start(Stage stage)  {
 
    //create new game
    game = new MemoryGame();
-   game.createBackBoard();
-   game.createImageBoard();
+   game.setUp();
    
-   //setAnimalImages();
+   //game.createBackBoard();
+   //game.createImageBoard();
 
-      for (int h=0; h<4; h++) {
-         for (int v=0; v<4; v++){
-               int num = (game.get(h,v)) - 'A';
-               
-               System.out.println(num);
-               
-               all[num] = new ImageView("file:animal"+(num)+".jpg");
-               all[num].setFitWidth(100);
-               all[num].setFitHeight(100);
-               
-               grid.add(all[num], h, v);
-             
-         }//for
-      }//for 
-      
-      for (int h=0; h<4; h++) {
-         for (int v=0; v<4; v++){
-            buttons[h][v]=  makeButton(new Image("question.jpg"));
-            grid.add(buttons[h][v],h,v);
-            buttons[h][v].setStyle("-fx-background-color: #c7f9cd");
-            buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
-         }//for
-      }//for       
+   setImages();   
+   setButtons();  
       
       grid.setAlignment(Pos.CENTER);
    
@@ -145,6 +124,34 @@ Button makeButton(Image img){
       Button newButton =  new Button("",iView);
       return(newButton); 
    }
+   
+void setImages(){
+      for (int h=0; h<4; h++) {
+         for (int v=0; v<4; v++){
+               int num = (game.get(h,v)) - 'A';
+               
+               System.out.println(num);
+               
+               all[num] = new ImageView("file:animal"+(num)+".jpg");
+               all[num].setFitWidth(100);
+               all[num].setFitHeight(100);
+               
+               grid.add(all[num], h, v);
+             
+         }//for
+      }//for 
+}   
+
+void setButtons(){
+      for (int h=0; h<4; h++) {
+         for (int v=0; v<4; v++){
+            buttons[h][v]=  makeButton(new Image("question.jpg"));
+            grid.add(buttons[h][v],h,v);
+            buttons[h][v].setStyle("-fx-background-color: #c7f9cd");
+            buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
+         }//for
+      }//for  
+}
 
 class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       @Override
@@ -165,7 +172,6 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                   if(i % 2 == 0){
                      r2 = r;
                      c2 = c;
-                     
                   }
                   else{
                      //add choices to array
@@ -207,19 +213,18 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
          
          //if restart button clicked
          if(event.getSource().equals(restartButton)){
-            for (int h=0; h<4; h++) {
-               for (int v=0; v<4; v++){
-                  buttons[h][v].setVisible(true);
-                  buttons[h][v].setOnAction(new MemoryGameButtonHandler());
                   i=0;
                   
                   game = new MemoryGame();
-                  game.createBackBoard();
-                  game.createImageBoard();
+                  game.setUp();
+                  //game.createBackBoard();
+                  //game.createImageBoard();
                   
+                  setImages();   
+                  setButtons();  
+                                  
                   reportLabel.setText(String.format("New Game!"));
-               }
-            }
+             
          }//end if restart button clicked
          
          if(event.getSource().equals(turnOverButton)){
