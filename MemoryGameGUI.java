@@ -33,8 +33,6 @@ public class MemoryGameGUI extends Application {
    Font font = new Font("American Typewriter", 50);
    GridPane grid = new GridPane();
    Label introlabel;
-   int turns = 0;
-   int i=0;
    
    Button [][] buttons = new Button[4][4];
    ImageView[] all = new ImageView[16];
@@ -43,6 +41,8 @@ public class MemoryGameGUI extends Application {
    Label reportLabel;
    
    //initialize variables for choices
+   int i=0;
+   
    int r2=0;
    int c2=0;
    
@@ -52,23 +52,19 @@ public class MemoryGameGUI extends Application {
    int r=0;
    int c=0;
    
-
-public static void main(String[] args){
+   public static void main(String[] args){
       launch(args);
    }
+      
+   @Override
+   public void start(Stage stage){
    
-@Override
-public void start(Stage stage)  {
-
-   //create new game
-   game = new MemoryGame();
-   game.setUp();
-   
-   //game.createBackBoard();
-   //game.createImageBoard();
-
-   setImages();   
-   setButtons();  
+      //create new game
+      game = new MemoryGame();
+      game.setUp();
+      
+      setImages();   
+      setButtons();  
       
       grid.setAlignment(Pos.CENTER);
    
@@ -95,8 +91,8 @@ public void start(Stage stage)  {
       turnOverButton.setFont(new Font("American Typewriter",25));
       turnOverButton.setStyle("-fx-border-color: #c7f9cd; -fx-border-width: 5px;");
       turnOverButton.setVisible(false);
-
-      HBox hbox= new HBox (restartButton, turnOverButton, space, reportLabel);
+   
+      HBox hbox = new HBox (restartButton, turnOverButton, space, reportLabel);
       hbox.setAlignment(Pos.CENTER);
                 
       VBox vbox = new VBox(introLabel,vbox2, grid, vbox3, hbox);
@@ -105,8 +101,6 @@ public void start(Stage stage)  {
       vbox.setPadding(new Insets(20));
          
       Scene scene = new Scene(vbox, 1000, 800, Color.LIGHTBLUE);
-            
-      //scene.getStylesheets().add("matchingGame.CSS");
          
       stage.setScene(scene);  
          
@@ -115,34 +109,28 @@ public void start(Stage stage)  {
       stage.show();
          
    }//End of Stage
-   
-Button makeButton(Image img){
+      
+   Button makeButton(Image img){
       ImageView iView = new ImageView(img);
       iView.setFitWidth(100); 
       iView.setFitHeight(100);
-         
       Button newButton =  new Button("",iView);
       return(newButton); 
    }
-   
-void setImages(){
+      
+   void setImages(){
       for (int h=0; h<4; h++) {
          for (int v=0; v<4; v++){
-               int num = (game.get(h,v)) - 'A';
-               
-               System.out.println(num);
-               
-               all[num] = new ImageView("file:animal"+(num)+".jpg");
-               all[num].setFitWidth(100);
-               all[num].setFitHeight(100);
-               
-               grid.add(all[num], h, v);
-             
+            int num = (game.get(h,v)) - 'A';
+            all[num] = new ImageView("file:animal"+(num)+".jpg");
+            all[num].setFitWidth(100);
+            all[num].setFitHeight(100);
+            grid.add(all[num], h, v);
          }//for
       }//for 
-}   
-
-void setButtons(){
+   }   
+   
+   void setButtons(){
       for (int h=0; h<4; h++) {
          for (int v=0; v<4; v++){
             buttons[h][v]=  makeButton(new Image("question.jpg"));
@@ -151,20 +139,18 @@ void setButtons(){
             buttons[h][v].setOnAction(new MemoryGameButtonHandler());   
          }//for
       }//for  
-}
-
-class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
+   }
+   
+   class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       @Override
       public void handle(ActionEvent event){
-      
-      turns++;
-      
-      int [] choices = new int[4];
-      
-      for (r = 0; r<4; r++) {
+         
+         int [] choices = new int[4];
+         
+         for (r = 0; r<4; r++) {
             for (c = 0; c<4; c++){
                if(event.getSource().equals(buttons[r][c])){
-                  
+                     
                   buttons[r][c].setVisible(false);
                   buttons[r][c].setOnAction(null);
 
@@ -197,7 +183,7 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                         turnOverButton.setVisible(true);                      
                      }
                   }
-                                   
+                                      
                   //test if game is won
                   if(game.isWinner()){
                      for(r=0;r<3;r++){ 
@@ -206,35 +192,32 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                         }
                      }
                   }//end test if game is won
-               i++;       
+                  i++;       
+                  }
                }
             }
+            
+            //if restart button clicked
+            if(event.getSource().equals(restartButton)){
+               i=0;
+               
+               game = new MemoryGame();
+               game.setUp();
+               
+               setImages();   
+               setButtons();  
+                               
+               reportLabel.setText(String.format("New Game!"));
+            }//end if restart button clicked
+            
+            if(event.getSource().equals(turnOverButton)){
+               turnOverButton.setVisible(true);
+               buttons[r1][c1].setVisible(true);
+               buttons[r1][c1].setOnAction(new MemoryGameButtonHandler());
+   
+               buttons[r2][c2].setVisible(true);
+               buttons[r2][c2].setOnAction(new MemoryGameButtonHandler());
+            }//end if turnOverButton clicked
          }
-         
-         //if restart button clicked
-         if(event.getSource().equals(restartButton)){
-                  i=0;
-                  
-                  game = new MemoryGame();
-                  game.setUp();
-                  //game.createBackBoard();
-                  //game.createImageBoard();
-                  
-                  setImages();   
-                  setButtons();  
-                                  
-                  reportLabel.setText(String.format("New Game!"));
-             
-         }//end if restart button clicked
-         
-         if(event.getSource().equals(turnOverButton)){
-            turnOverButton.setVisible(true);
-            buttons[r1][c1].setVisible(true);
-            buttons[r1][c1].setOnAction(new MemoryGameButtonHandler());
-
-            buttons[r2][c2].setVisible(true);
-            buttons[r2][c2].setOnAction(new MemoryGameButtonHandler());
-         }//end if turnOverButton clicked
-      }
-   }//end MemoryGameButtonHandler
+      }//end MemoryGameButtonHandler
 }//end public class MemoryGameGUI
