@@ -135,6 +135,11 @@ class MemoryGame implements Game
       backBoard[r1][c1] = imageBoard[r1][c1];
       backBoard[r2][c2] = imageBoard[r2][c2];
       
+      
+      }
+   
+   public void updateTurnCount()
+   {
       turnCount++;
    }
    
