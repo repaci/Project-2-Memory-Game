@@ -69,18 +69,16 @@ public void start(Stage stage)  {
 
       for (int h=0; h<4; h++) {
          for (int v=0; v<4; v++){
-            if(h>7){
-               all[h] = new ImageView("file:animal"+(h-8)+".jpg");
-               all[h].setFitWidth(100);
-               all[h].setFitHeight(100);
-               grid.add(all[h], h, v);
-            }
-            else{
-               all[h] = new ImageView("file:animal"+(h)+".jpg");
-               all[h].setFitWidth(100);
-               all[h].setFitHeight(100);
-               grid.add(all[h],h, v);
-            }  
+               int num = (game.get(h,v)) - 'A';
+               
+               System.out.println(num);
+               
+               all[num] = new ImageView("file:animal"+(h)+".jpg");
+               all[num].setFitWidth(100);
+               all[num].setFitHeight(100);
+               
+               grid.add(all[num], h, v);
+             
          }//for
       }//for 
       
