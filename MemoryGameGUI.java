@@ -73,7 +73,7 @@ public void start(Stage stage)  {
                
                System.out.println(num);
                
-               all[num] = new ImageView("file:animal"+(h)+".jpg");
+               all[num] = new ImageView("file:animal"+(num)+".jpg");
                all[num].setFitWidth(100);
                all[num].setFitHeight(100);
                
