@@ -136,22 +136,6 @@ public void start(Stage stage)  {
       stage.show();
          
    }//End of Stage
-
-void setAnimalImages(){
-   
-   for(int i=0; i<16; i++){
-      if(i>7){
-         all[i] = new ImageView("file:animal"+(i-8)+".jpg");
-         all[i].setFitWidth(100);
-         all[i].setFitHeight(100);
-      }
-      else{
-         all[i] = new ImageView("file:animal"+(i)+".jpg");
-         all[i].setFitWidth(100);
-         all[i].setFitHeight(100);
-      } 
-   }                  
-}//end setAnimalImages   
    
 Button makeButton(Image img){
       ImageView iView = new ImageView(img);
@@ -160,17 +144,8 @@ Button makeButton(Image img){
          
       Button newButton =  new Button("",iView);
       return(newButton); 
-      
    }
-   
-void pause(){
-    try{
-      TimeUnit.SECONDS.sleep(3);
-   }
-   catch(Exception e){
-   }
-}
-   
+
 class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
       @Override
       public void handle(ActionEvent event){
@@ -204,10 +179,12 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                      
                      //take turn using choices array
                      game.takeTurn(choices);  
+                     game.updateTurnCount();
 
                      //test if these two are a match
                      if(game.match(choices) == true){
                         reportLabel.setText(String.format("Match!"));
+                        turnOverButton.setVisible(false);
                      }
                      else{
                         reportLabel.setText(String.format("not a match!"));
@@ -235,13 +212,17 @@ class MemoryGameButtonHandler implements EventHandler<ActionEvent>{
                   buttons[h][v].setVisible(true);
                   buttons[h][v].setOnAction(new MemoryGameButtonHandler());
                   i=0;
+                  
+                  game = new MemoryGame();
+                  game.createBackBoard();
+                  game.createImageBoard();
+                  
                   reportLabel.setText(String.format("New Game!"));
                }
             }
          }//end if restart button clicked
          
          if(event.getSource().equals(turnOverButton)){
-      
             turnOverButton.setVisible(true);
             buttons[r1][c1].setVisible(true);
             buttons[r1][c1].setOnAction(new MemoryGameButtonHandler());
